@@ -1,0 +1,26 @@
+{
+  "name": "conceptiverse-backend",
+  "version": "1.0.0",
+  "description": "The conceptiverse backend API",
+  "main": "server.js",
+  "scripts": {
+    "dev": "set ENV=development& nodemon ./dist/server.js",
+    "start": "set ENV=production& node ./dist/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jeremy Parson",
+  "license": "ISC",
+  "dependencies": {
+    "child_process": "^1.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "mongoose": "^6.4.7"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.12",
+    "@types/express": "^4.17.13",
+    "nodemon": "^2.0.19",
+    "typescript": "^4.7.4"
+  }
+}
