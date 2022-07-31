@@ -1,0 +1,19 @@
+{{{code}}}
+
+const testCases = {{{nested_array parameters}}};
+const getSolutions = {{{arrayify expectedOutputs}}};
+
+for (let i = 0; i < testCases.length; i++) {
+    const testCase = testCases[i];
+    const solution = getSolutions[i];
+    const output = {{methodName}}{{{anonymous_invoke parameterCount}}};
+    if (output === solution) {
+        console.log('Test passed\nInputs:', testCase, '\nGot:', output)
+    } else {
+        console.log('Test failed\nInputs:', testCase, '\nExpected:', solution, '\nGot:', output)
+    }
+}
+
+{{!-- {{#each testCases}}
+{{{methodName}}}{{{parameterize parameters}}};
+{{/each}} --}}

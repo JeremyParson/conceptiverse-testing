@@ -1,6 +1,7 @@
 require('dotenv').config();
 import mongoose from "mongoose";
 import Test from "./test"
+import User from "./user"
 import Solution from "./solution"
 import TestCase from "./testCase"
 
@@ -12,4 +13,4 @@ let db = mongoose.connection;
 
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-export {db, Test, Solution, TestCase};
+export {db, Test, Solution, TestCase, User};
