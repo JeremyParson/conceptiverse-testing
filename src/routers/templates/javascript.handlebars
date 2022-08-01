@@ -7,13 +7,24 @@ for (let i = 0; i < testCases.length; i++) {
     const testCase = testCases[i];
     const solution = getSolutions[i];
     const output = {{methodName}}{{{anonymous_invoke parameterCount}}};
-    if (output === solution) {
-        console.log('Test passed\nInputs:', testCase, '\nGot:', output)
+    let outputString = '';
+    let solutionString = '';
+    if (output instanceof Array) {
+        outputString = "[" + output.toString() + "]";
     } else {
-        console.log('Test failed\nInputs:', testCase, '\nExpected:', solution, '\nGot:', output)
+        outputString = output.toString();
+    }
+
+    if (solution instanceof Array) {
+        solutionString = "[" + solution.toString() + "]";
+    } else {
+        solutionString = solution.toString();
+    }
+
+    if (outputString === solutionString) {
+        console.log(`Passed|(${testCase})|${solutionString}|${outputString}`);
+        
+    } else {
+        console.log(`Failed|(${testCase})|${solutionString}|${outputString}`);
     }
 }
-
-{{!-- {{#each testCases}}
-{{{methodName}}}{{{parameterize parameters}}};
-{{/each}} --}}

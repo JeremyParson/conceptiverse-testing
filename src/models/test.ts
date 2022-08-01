@@ -3,11 +3,18 @@ import {ITestCase} from "./testCase"
 
 interface ITest {
     chapter: Types.ObjectId,
+    testType: string,
     className: string,
     methodName:string,
-    testType: string,
+
+    javascript: string,
+    cpp: string,
+    rust: string,
+    python: string,
+    java: string,
+    
     testCases: [Types.ObjectId],
-    creator: Types.ObjectId
+    creator: Types.ObjectId,
 }
 
 export interface PopulatedITest {
@@ -25,6 +32,13 @@ const TestSchema = new Schema({
     },
     className: String,
     methodName: String,
+
+    javascript: String,
+    cpp: String,
+    rust: String,
+    python: String,
+    java: String,
+
     testCases: [{ type: Schema.Types.ObjectId, ref: 'test case' }],
     creator: Schema.Types.ObjectId
 });

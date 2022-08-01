@@ -44,12 +44,14 @@ function parameterize(aList: Array<any>) {
   );
 }
 
-function arrayify(aList: Array<any>) {
+function arrayify(aList: Array<any>): any {
   return (
     "[" +
     aList.map((v: any) => {
-      if (typeof v == "string") {
+      if (typeof v === "string") {
         return '"' + v + '"';
+      } else if (v instanceof Array) {
+        return arrayify(v)
       }
       return v;
     }) +
