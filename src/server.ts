@@ -23,6 +23,9 @@ app.use(defineCurrentUser)
 import Testing from "./routers/testing";
 app.use("/", Testing);
 
+import Solution from "./routers/solution";
+app.use("/solution", Solution);
+
 // Start
 app.listen(process.env.PORT, () => {
   console.log(`Server listening on port ${process.env.PORT}.`);

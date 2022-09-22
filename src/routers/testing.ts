@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { execSync } from "child_process";
-import { Test } from "../models";
+import { Test, Solution } from "../models";
 import fs from "fs";
 import Handlebars from "handlebars";
 import Path from "path";
@@ -12,11 +12,19 @@ import { ITestCase } from "../models/testCase";
 const router = Router();
 
 // Handle testing request
-router.post("/:id", async (req, res) => {
+router.get("/:id", async (req, res) => {
   if (!req.currentUser)
     return res
       .status(400)
       .json({ message: "You must be logged in to send start a test." });
+
+  // Get user's code
+  const solution = await Solution.findOne( {creator: req.currentUser._id, test: req.params.id} )
+  if (!solution) {
+    return res
+    .status(400)
+    .json({ message: "You have not created a solution for this test." });
+  }
 
   // Get Test data and convert it to JSON
   let test = await Test.findById(req.params.id);
@@ -52,7 +60,7 @@ router.post("/:id", async (req, res) => {
 
   const data = {
     parameters: testCases.map((testCases) => testCases.parameters),
-    code: req.body.code,
+    code: solution.javascript,
     expectedOutputs: testCases.map((testCase) => testCase.expectedOutput),
     methodName: testJSON.methodName,
     className: testJSON.className,
@@ -69,8 +77,10 @@ router.post("/:id", async (req, res) => {
     
     const resultsSplit = results.split('\n');
     let resultData: Array<Object> = []
+    let passCount = 0;
     for (let result of resultsSplit) {
       let resultSplit = result.split('|')
+      if (resultSplit[0] == "Passed") passCount++; 
       resultData.push({
         status: resultSplit[0],
         inputs: resultSplit[1],
@@ -79,10 +89,14 @@ router.post("/:id", async (req, res) => {
       })
     }
     res.status(200).send({
-      results: resultData
+      results: resultData,
+      passCount,
+      passed: passCount == resultData.length,
+      time: Date.now()
     });
   } catch (err) {
-    res.status(400).send(err);
+    console.log(err)
+    res.status(200).send({error: 'Your code ran into an error.', time: Date.now()});
   }
 
   // Delete client test directory
